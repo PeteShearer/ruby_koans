@@ -37,7 +37,7 @@ class AboutSymbols < EdgeCase::Koan
     RubyConstant = "What is the sound of one hand clapping?"
     def test_constants_become_symbols
       all_symbols = Symbol.all_symbols
-	  puts all_symbols	
+	  	
       assert_equal true, all_symbols.include?(:RubyConstant)
     end
   end
