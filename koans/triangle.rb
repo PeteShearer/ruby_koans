@@ -14,6 +14,9 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+  fail TriangleError, "Sides must be greater than 0" if a < 1 or b < 1 or c < 1
+  sides = [a,b,c].sort
+  fail TriangleError, "The sum of the 2 smallest sides must be greater than the largest size" if sides[0] + sides[1] <= sides[2]
   return :equilateral if a==b and a==c
   return :isosceles if a==b or a==c or b==c
   return :scalene
