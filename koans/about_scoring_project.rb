@@ -28,9 +28,43 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 # More scoring examples are given in the tests below:
 #
 # Your goal is to write the score method.
+STANDARD_TRIPLET_MULTIPLIER = 100
+ONES_TRIPLET_MULTIPLIER = 1000
+ONES_VALUE = 100
+FIVES_VALUE = 50
 
 def score(dice)
   # You need to write this method
+  result = 0
+  return result if invalid_dice?(dice)
+
+  dice_sort = {1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0}
+
+  dice.each do |die|
+    dice_sort[die] += 1
+  end
+
+  dice_sort.each_pair do |key, value|
+    if non_single_score?(key)
+      result += key * STANDARD_TRIPLET_MULTIPLIER if value >= 3
+    else
+      groups_of_three, remainder = value/3, value%3
+
+      result += (ONES_TRIPLET_MULTIPLIER * groups_of_three) + (ONES_VALUE * remainder) if key == 1
+      result += (key * STANDARD_TRIPLET_MULTIPLIER * groups_of_three) + (FIVES_VALUE * remainder) if key == 5
+    end
+
+  end
+
+  result
+end
+
+def non_single_score?(die)
+  return true if die != 1 and die != 5
+end
+
+def invalid_dice?(dice)
+  return true if dice.length == 0
 end
 
 class AboutScoringProject < EdgeCase::Koan
